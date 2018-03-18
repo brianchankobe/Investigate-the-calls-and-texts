@@ -25,10 +25,33 @@ with open('calls.csv', 'r') as f:
 """
 
 a= []
+
 for call in calls:   #judge if it is ceded by 140
+    validation = True
     if call[0][0] == '1'and call[0][1] == '4' and call[0][2] == '0':
         if call[0] not in a:
             a.append(call[0])
+    else:
+        if call[0] not in a:
+            for text in texts:
+                if call[0] != text[0] and call[0] != text[1]:  #never send or receive text
+                    continue
+                else:
+                    validation = False
+                    break
+            if(validation):
+                for call2 in calls:
+                    valid = True
+                    if call[0] != call2[1]: #never take a phone call
+                        continue
+                    else:
+                        valid = False
+                        break
+                if(valid):
+                    a.append(call[0])
+
+
+a = sorted(a)
 
 print("These numbers could be telemarketers: ")
 for i in range(len(a)):

@@ -45,31 +45,40 @@ The list of codes should be print out one per line in lexicographic order with n
 
 phlist = {}
 
-j = 0
+
+
+j = 1
 for call in calls:
     if(call[0][0] == '(' and call[0][1] == '0' and call[0][2] == '8' and call[0][3] == '0'): #confirm whether it is called by bangalore(080)
         if call[1][0] == '(':  #is it fixed number
             i = 1
-            phlist[call[0]] = call[1][i]
+            phlist[str(j)] = call[1][i]
             i+=1
             while call[1][i] != ')':   #output the area code
-                phlist[call[0]] += call[1][i]
+                phlist[str(j)] += call[1][i]
                 i+=1
+            j += 1
         elif call[1][0] == '1'and call[1][1] == '4' and call[1][2] == '0': #it is telemarketers' number
-            phlist[call[0]] = '140'
+            phlist[str(j)] = '140'
+            j += 1
         else: #it is mobile phone number
-            phlist[call[0]] = call[1][0]
+            phlist[str(j)] = call[1][0]
             for element in range(3):
-                phlist[call[0]] += call[1][element+1]
+                phlist[str(j)] += call[1][element+1]
+            j += 1
 
 codeAll = []  #all the area number
+
 for ph in phlist:
     if phlist[ph] not in codeAll:
         codeAll.append(phlist[ph])
 
+
+codeCompare = sorted(codeAll)
+
 print("The numbers called by people in Bangalore have codes: ")
-for i in range(len(codeAll)):
-    print(codeAll[i])
+for i in range(len(codeCompare)):
+    print(codeCompare[i])
 
 """
 Part B: What percentage of calls from fixed lines in Bangalore are made
@@ -87,5 +96,5 @@ for ph in phlist:
     if phlist[ph] == '080':
         count += 1
 
-callPerc = count / (len(phlist))
-print("\n{} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.".format(round(callPerc*100, 2)))
+callPerc = (count / len(phlist))*100
+print("\n{} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.".format(round(callPerc, 2)))

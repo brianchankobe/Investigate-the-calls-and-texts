@@ -25,11 +25,17 @@ September 2016.".
 """
 
 durations = {}
-for call in calls:
+for call in calls: #the phone calling to others
     if call[0] in durations:
         durations[call[0]] += int(call[3])
     else:
         durations[call[0]] = int(call[3])
+
+for call in calls:  #the phone called
+    if call[1] in durations:
+        durations[call[1]] += int(call[3])
+    else:
+        durations[call[1]] = int(call[3])
 
 """find the maxmimum duration of calls"""
 temp = 0
